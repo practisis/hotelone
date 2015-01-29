@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>MicroShip</name>
+    <name>NubePOS</name>
     <description>
-        Kill the Galatic Mechanical JellyFish before they kill us all!
+        El futuro del comercio.
     </description>
     <author email="info@practisis.com" href="http://practisis.net">
-        Global Game Jam UIO - Joaquin Villarreal, Martin Obando, Iringa Villac, Jacob Clausen,Fabricio Carrion, Jose Villarreal
+        Practisis S.A.
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
