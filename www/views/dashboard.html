@@ -2,14 +2,25 @@
 
     <!-- stats -->
     <div class="row">
+	    <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="box-icon bg-danger">
+                    <i class="fa fa-shopping-cart"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3">10,262.15</p>
+                    <p class="text-muted"><span data-i18n="Ventas $"></span></p>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-3 col-xsm-6">
             <div class="panel mini-box">
                 <span class="box-icon bg-success">
-                    <i class="fa fa-rocket"></i>
+                    <i class="fa fa-credit-card"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">25 <span class="size-h4">%</span></p>
-                    <p class="text-muted"><span data-i18n="Growth"></span></p>
+                    <p class="size-h3">5.25<span class="size-h4"></span></p>
+                    <p class="text-muted"><span data-i18n="Ticket Promedio $"></span></p>
                 </div>
             </div>
         </div>
@@ -19,8 +30,8 @@
                     <i class="fa fa-users"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">112</p>
-                    <p class="text-muted"><span data-i18n="New users"></span></p>
+                    <p class="size-h3">78</p>
+                    <p class="text-muted"><span data-i18n="Transacciones"></span></p>
                 </div>
             </div>
         </div>
@@ -30,40 +41,20 @@
                     <i class="fa fa-dollar"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">4,550</p>
-                    <p class="text-muted"><span data-i18n="Profit"></span></p>
+                    <p class="size-h3">1,550</p>
+                    <p class="text-muted"><span data-i18n="Utilidad $"></span></p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-danger">
-                    <i class="fa fa-shopping-cart"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">262</p>
-                    <p class="text-muted"><span data-i18n="Sales"></span></p>
-                </div>
-            </div>
-        </div>
-
     </div>
     <!-- end stats -->
 
     <div class="row">
         <div class="col-md-8">
             <section class="panel panel-default">
-                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Data"></span></strong></div>
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Ventas Diarias"></span></strong></div>
                 <div class="panel-body" data-ng-controller="morrisChartCtrl">
-                    <div morris-chart
-                         data-data="comboData"
-                         data-type="bar"
-                         data-xkey="year"
-                         data-ykeys='["a", "b", "c"]'
-                         data-labels='["Value A", "Value B", "Value C"]'
-                         data-bar-colors='["#176799","#42A4BB","#78D6C7"]'
-                         style="height: 300px;"
-                         ></div>
+                        <div id="chartventas"></div>
                 </div>
             </section> 
         </div>
@@ -201,4 +192,30 @@
     </div>
 
 </div>
+<script>
+new Morris.Area({
+  // ID of the element in which to draw the chart.
+  element: 'chartventas',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+  data: [
+    { x: '04/02', ventas: 457.10 },
+    { x: '05/02', ventas: 380.25  },
+    { x: '06/02', ventas: 125.58  },
+    { x: '07/02', ventas: 275.12  },
+    { x: '08/02', ventas: 189.25 },
+	{ x: '09/02', ventas: 129.25 },
+	{ x: '10/02', ventas: 183.25 }
+  ],
+  // The name of the data record attribute that contains x-values.
+  xkey: 'x',
+  // A list of names of data record attributes that contain y-values.
+  ykeys: ['ventas'],
+  // Labels for the ykeys -- will be displayed when you hover over the
+  // chart.
+  labels: ['ventas'],
+  parseTime: false,
+  lineColors: ['#E94B3B']
+});
+</script>
   
