@@ -2,58 +2,32 @@
 
     <!-- stats -->
     <div class="row">
-	    <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-danger">
-                    <i class="fa fa-shopping-cart"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h3">10,262</p>
-                    <p class="text-muted"><span data-i18n="Ventas $"></span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-success">
-                    <i class="fa fa-credit-card"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h3">5.25<span class="size-h4"></span></p>
-                    <p class="text-muted"><span data-i18n="Ticket Promedio $"></span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-info">
-                    <i class="fa fa-users"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h3">78</p>
-                    <p class="text-muted"><span data-i18n="Transacciones"></span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-warning">
-                    <i class="fa fa-dollar"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h3">1,550</p>
-                    <p class="text-muted"><span data-i18n="Utilidad $"></span></p>
-                </div>
-            </div>
+	    <div class="col-lg-12 col-xsm-6">
+			<section class="panel panel-default">
+				<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Toma de Inventario</strong></div>
+				<div class="panel-body">
+				<span id="idproducto">Cargando Scanner</span>
+				</div>
+			</section> 
         </div>
     </div>
     <!-- end stats -->
-
-    
-
-
-    
-
 </div>
+
+<script>
+function escanear(){
+resultDiv= document.querySelector("#idproducto");
+resultDiv.innerHTML='';
+cordova.plugins.barcodeScanner.scan(
+	function (result) {
+		resultDiv.innerHTML= result.text;
+	},
+	function(error) {
+		alert("Error de scan" + error);
+	}
+);
+}
+
+</script>
 
   
