@@ -11,6 +11,7 @@
         <!-- needs images, font... therefore can not be part of ui.css -->
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
+        <link rel="stylesheet" href="styles/estilotemp.css">
         <!-- end needs images -->
 
             <link rel="stylesheet" href="styles/main.css">
@@ -39,5 +40,14 @@
         <script src="scripts/ui.js"></script>
 
         <script src="scripts/app.js"></script>
+		<script>
+			var dispositivo = navigator.userAgent.toLowerCase();
+			/*var esMovil=true;*/
+			var esMovil=false;
+			if( dispositivo.search(/iphone|ipod|ipad|android/) > -1 ){
+				esMovil=true;
+			}
+		</script>
+		<script type="text/javascript" src="scripts/funciones.js"></script>
     </body>
 </html>
