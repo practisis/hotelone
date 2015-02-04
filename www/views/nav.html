@@ -4,11 +4,11 @@
         data-collapse-nav
         data-slim-scroll
         data-highlight-active>
-        <li><a href="#/dashboard"> <i class="fa fa-dashboard"><span class="icon-bg bg-danger"></span></i><span data-i18n="Resumen"></span> </a></li>
+        <li><a onclick="envia('dashboard');"> <i class="fa fa-dashboard"><span class="icon-bg bg-danger"></span></i><span data-i18n="Resumen"></span> </a></li>
         <li>
             <a href="#/ui"><i class="fa fa-usd"><span class="icon-bg bg-orange"></span></i><span data-i18n="Ventas"></span></a>
             <ul>
-                <li><a href="#/ui/buttons"><i class="fa fa-caret-right"></i><span data-i18n="Punto de Venta"></span></a></li>
+                <li><a onclick="envia('nubepos/nubepos');"><i class="fa fa-caret-right"></i><span data-i18n="Punto de Venta"></span></a></li>
                 <li><a href="#/ui/typography"><i class="fa fa-caret-right"></i><span data-i18n="Historial"></span></a></li>
             </ul>
         </li>
@@ -17,7 +17,11 @@
 
         </li>
         <li>
-            <a href="#/form"><i class="fa fa-barcode"><span class="icon-bg bg-success"></span></i><span data-i18n="Inventarios"></span></a>
+            <a href="#1"><i class="fa fa-barcode"><span class="icon-bg bg-success"></span></i><span data-i18n="Inventarios"></span></a>
+			<ul>
+                <li><a onclick="envia('tomainventario');"><i class="fa fa-caret-right"></i><span data-i18n="Toma de Inventario"></span></a></li>
+                <li><a href="#/ui/typography"><i class="fa fa-caret-right"></i><span data-i18n="Ver Inventario"></span></a></li>
+            </ul>
         </li>
         <li class="nav-task">
             <a href="#/tasks">
@@ -29,3 +33,8 @@
         </li>
     </ul>
 </div>
+<script>
+function envia(donde){
+location.href="index.html#/"+donde;
+}
+</script>
