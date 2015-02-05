@@ -23,20 +23,6 @@
     <!-- end stats -->
 </div>
 
-<script>
-function escanear(){
-resultDiv= document.querySelector("#idproducto");
-resultDiv.innerHTML='';
-cordova.plugins.barcodeScanner.scan(
-	function (result) {
-		resultDiv.innerHTML= result.text;
-	},
-	function(error) {
-		alert("Error de scan" + error);
-	}
-);
-}
 
-</script>
 
   

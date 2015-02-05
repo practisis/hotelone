@@ -49,5 +49,23 @@
 			}
 		</script>
 		<script type="text/javascript" src="scripts/funciones.js"></script>
+                
+                <script>
+function escanear(){
+        resultDiv = document.querySelector("#idproducto");
+	resultDiv.innerHTML='';
+        cordova.plugins.barcodeScanner.scan(
+		function (result) {
+                        alert(result.text);
+		}, 
+		function (error) {
+			alert("Error de Scan: " + error);
+		}
+	);
+    
+}
+
+</script>
+                
     </body>
 </html>
