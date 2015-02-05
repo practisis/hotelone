@@ -86,7 +86,7 @@
 	resultDiv.innerHTML='';
         cordova.plugins.barcodeScanner.scan(
 		function (result) {
-                        ajax("http://104.131.65.202/ticket/validacionmovil.php?id="+result.text);
+                        alert(result.text);
 		}, 
 		function (error) {
 			alert("Error de Scan: " + error);
