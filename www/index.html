@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
         <link rel="stylesheet" href="styles/estilotemp.css">
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <!-- end needs images -->
 
             <link rel="stylesheet" href="styles/main.css">
@@ -49,23 +51,7 @@
 			}
 		</script>
 		<script type="text/javascript" src="scripts/funciones.js"></script>
-                
-                <script>
-function escanear(){
-        resultDiv = document.querySelector("#idproducto");
-	resultDiv.innerHTML='';
-        cordova.plugins.barcodeScanner.scan(
-		function (result) {
-                        alert(result.text);
-		}, 
-		function (error) {
-			alert("Error de Scan: " + error);
-		}
-	);
-    
-}
-
-</script>
+        
                 
     </body>
 </html>
