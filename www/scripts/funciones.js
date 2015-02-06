@@ -2,10 +2,16 @@ var altolistaprod=0;
 var pantAlto=window.innerHeight;
 var pantAncho=window.innerWidth;
 var vertical=false;
-$(document).ready(function(){
+	
+function init(){
 	$('#ModuloCierre').load('views/includes/cierreCajaNubePOS/includeCierre.php');
-	$('#central').css("height",window.innerHeight+'px');
-	$('#central').css("width",window.innerWidth+'px');
+	$('#central').css("width",parseInt($('#content').css('width'))-20);
+	if(parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150<650)
+		$('#central').css("height",parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150);
+	else
+		$('#central').css("height","650px");
+	pantAlto=parseInt($('#central').css('height'));
+	pantAncho=parseInt($('#content').css('width'))-20;
 	$.ajax({
 		type: 'POST',
 		url: 'ajax/ajaxImpuestos.php',
@@ -106,7 +112,8 @@ $(document).ready(function(){
 			}
 		});*/
 		init2();
-	});
+	
+}
 
 $(window).resize(function (){
 	//init();
@@ -130,9 +137,13 @@ $(window).resize(function (){
 });
 
 $(window).bind("orientationchange", function(event){
-	pantAlto=window.innerHeight;
-	pantAncho=window.innerWidth;
-	$('#central').css("width",window.innerWidth+'px');
+	$('#central').css("width",parseInt($('#content').css('width'))-20);
+	if(parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150<650)
+		$('#central').css("height",parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150);
+	else
+		$('#central').css("height","650px");
+	pantAlto=parseInt($('#central').css('height'));
+	pantAncho=parseInt($('#content').css('width'))-20;
 	if((pantAncho/pantAlto)<=3){
 		$('#central').css("height",window.innerHeight+'px');
 		console.log(pantAncho/pantAlto);
