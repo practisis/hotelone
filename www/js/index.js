@@ -1,4 +1,5 @@
-   function onDeviceReady() {
+   function onDeviceReady(){
+		//alert("listo");
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         db.transaction(iniciaDB, errorCB, successCB);
     }
@@ -7,9 +8,10 @@
     //
     
     function iniciaDB(tx){
-        tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
+		tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
         tx.executeSql('CREATE TABLE IF NOT EXISTS PRODUCTOS (id integer primary key, producto text, codigo text, precio integer, categoriaid integer, iva integer, servicio integer, activo integer)');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIA (id unique, categoria, activo)');
+		tx.executeSql('DROP TABLE IF EXISTS CATEGORIA');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIA (id integer primary key, categoria text, activo integer)');
         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id unique, nombre, cedula, email, direccion, telefono)');
     }
 
@@ -37,14 +39,51 @@
          var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
          db.transaction(sacadatos, errorCB, successCB);
     }
-    
+	
+	/*Funciones Ana:*/
+	function selectorProds(){
+         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+         db.transaction(sacadatosprod, errorCB, successCB);
+    }
+	
+	function sacadatosprod(tx){
+		 var catactiva=$('.categoriaActiva').attr("id");
+		 var dato=catactiva.split("_");
+		 $('#listaProductos').html('');
+         //tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+dato[1]+';',[], function (tx,res){
+         tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+dato[1]+';',[], function (tx,res){
+		 alert(res.rows.length);
+			for(i=0;i<res.rows.length;i++){
+				var item=res.rows.item(i);
+				$('#listaProductos').append('<div id="'+ item.id +'" data-precio="'+ item.precio +'" data-impuestos="0.12" data-impuestosindexes="1" data-formulado="'+ item.producto +'" onclick="agregarCompra(this); return false;" class="producto categoria_producto_'+ item.categoriaid +'">'+ item.producto +'</div>');
+			}
+		 });
+    }
+	function selectorCat(){
+         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+         db.transaction(sacadatoscat, errorCB, successCB);
+    }
+	
+	function sacadatoscat(tx){
+         tx.executeSql('SELECT * FROM CATEGORIA WHERE ACTIVO=1 ORDER BY CATEGORIA;',[], function (tx,res){
+			 $('#contenidoCategorias').html('');
+			for(i=0;i<res.rows.length;i++){
+				var item=res.rows.item(i);
+				selected='categoria';
+				if(i==0)
+					selected='categoriaActiva';
+				$('#contenidoCategorias').append('<div id="categoria_'+ item.id +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ item.id +'); PlaySound(5);">'+ (item.categoria).substring(0,6) +'</div>');
+			}
+         });
+         
+    }
+    /**/
     function sacadatos(tx){
          tx.executeSql('SELECT COUNT(ID) as cnt FROM DEMO;',[], function (tx,res){
             console.log("vamos:"+res.rows.item(0).cnt);
-            });
+         });
          
     }
-    
     
     function ingresaproductos(){
          var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -52,9 +91,20 @@
     }
     
     function metedatos(tx){
-         tx.executeSql('INSERT INTO PRODUCTOS (producto, codigo, precio, categoriaid, iva, servicio, activo) VALUES (?, ?, ?, ?, ?, ?, ?) ;',["producto1","12302921",10,1,1,1,1], function (tx,res){
-            console.log("vamos:"+res.insertId);
-            });
+			tx.executeSql('INSERT INTO PRODUCTOS (producto, codigo, precio, categoriaid, iva, servicio, activo) VALUES (?, ?, ?, ?, ?, ?, ?) ;',["producto1","12302921",10,1,1,1,1], function (tx,res){
+             console.log("vamos:"+res.insertId);
+		});
+    } 
+	
+	function ingresacateg(){
+         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+         db.transaction(metedatoscat, errorCB, successCB);
+    }
+    
+    function metedatoscat(tx){
+		tx.executeSql('INSERT INTO CATEGORIA(categoria,activo) VALUES (?, ?) ;',["categoria1",1], function (tx,res2){
+			console.log("vamos:"+res2.insertId);
+        });
     }
     
     var app = {

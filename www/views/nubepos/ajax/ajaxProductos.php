@@ -53,10 +53,10 @@ $typeResult = pg_query($type) or die (pg_last_error());
 						
 					if(strpos($taxID,'@') !== false){
 						$taxID = substr($taxID,0,-1);
-						}
+					}
 						
 				$innerJson .= '{"formulado_id" : "'.$row['id'].'", "formulado_tipo" : "'.$row['typeid'].'", "formulado_nombre" : "'.$row['formulado'].'", "formulado_codigo" : "'.$row['code'].'", "formulado_precio" : "'.$row['price'].'", "formulado_precio_id" : "'.$formpriceid.'", "formulado_impuestos" : "'.$tax.'", "formulado_tax_id" : "'.$taxID.'"},';
-				}
+			}
 			$json .= substr($innerJson,0,-1).']},';
 		}
 		

@@ -4,6 +4,8 @@ var pantAncho=window.innerWidth;
 var vertical=false;
 	
 function init(){
+	//populateDB();
+	ingresacateg();
 	ingresaproductos();
 	//descomentar este para el cierre //$('#ModuloCierre').load('views/includes/cierreCajaNubePOS/includeCierre.php');
 	$('#central').css("width",parseInt($('#content').css('width'))-20);
@@ -29,7 +31,10 @@ function init(){
 			formarCategorias(response);
 			}
 		});
-		
+	/*SQLLITE CATEGORIAS*/	
+	selectorCat();
+	selectorProds();
+	
 	$('.numero').on('mouseover',function(){
 		var cual=$(this).attr('cual');
 		$('#f_'+cual).css('display','none');
