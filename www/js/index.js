@@ -6,7 +6,7 @@
     // Populate the database
     //
     
-    function iniciaDB(tx) {
+    function iniciaDB(tx){
         tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
         tx.executeSql('CREATE TABLE IF NOT EXISTS PRODUCTOS (id integer primary key, producto text, codigo text, precio integer, categoriaid integer, iva integer, servicio integer, activo integer)');
         tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIA (id unique, categoria, activo)');
@@ -14,7 +14,7 @@
     }
 
     
-    function populateDB(tx) {
+    function populateDB(tx){
         //tx.executeSql('DROP TABLE IF EXISTS DEMO');
         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
