@@ -4,7 +4,8 @@ var pantAncho=window.innerWidth;
 var vertical=false;
 	
 function init(){
-	$('#ModuloCierre').load('views/includes/cierreCajaNubePOS/includeCierre.php');
+	ingresaproductos();
+	//descomentar este para el cierre //$('#ModuloCierre').load('views/includes/cierreCajaNubePOS/includeCierre.php');
 	$('#central').css("width",parseInt($('#content').css('width'))-20);
 	if(parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150<650)
 		$('#central').css("height",parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150);
@@ -14,15 +15,16 @@ function init(){
 	pantAncho=parseInt($('#content').css('width'))-20;
 	$.ajax({
 		type: 'POST',
-		url: 'ajax/ajaxImpuestos.php',
+		url: 'views/nubepos/ajax/ajaxImpuestos.php',
 		success: function(response){
+			console.log("Ana");
+			console.log(response);
 			$('#taxes').html(response);
 			}
 		});
-
 	$.ajax({
 		type: 'POST',
-		url: '../views/nubepos/ajax/ajaxCategorias.php',
+		url: 'views/nubepos/ajax/ajaxCategorias.php',
 		success: function(response){
 			formarCategorias(response);
 			}
@@ -112,7 +114,7 @@ function init(){
 			}
 		});*/
 		init2();
-	
+		
 }
 
 $(window).resize(function (){
@@ -552,7 +554,7 @@ function formarCategorias(json){
 	});
 	$.ajax({
 		type: 'POST',
-		url: 'ajax/ajaxProductos.php',
+		url: 'views/nubepos/ajax/ajaxProductos.php',
 		success: function(json){
 			$('#jsonProductos').html(json);
 			//init2(categoriaSelected);

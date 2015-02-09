@@ -55,7 +55,6 @@
          tx.executeSql('INSERT INTO PRODUCTOS (producto, codigo, precio, categoriaid, iva, servicio, activo) VALUES (?, ?, ?, ?, ?, ?, ?) ;',["producto1","12302921",10,1,1,1,1], function (tx,res){
             console.log("vamos:"+res.insertId);
             });
-         
     }
     
     var app = {
