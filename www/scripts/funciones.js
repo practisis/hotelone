@@ -929,9 +929,9 @@ function soloNumerost(e){
 }
 
 function ColocarFormasPago(){
-	var formaspago=$('#jsonformaspago').html();
+	/*var formaspago=$('#jsonformaspago').html();
 	var evalJson = eval(formaspago);
 	for(evalJson as k){
 		alert(evalJson[k].id);
-	}
+	}*/
 }
