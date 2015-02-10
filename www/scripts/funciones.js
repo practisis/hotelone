@@ -5,9 +5,10 @@ var vertical=false;
 	
 function init(){
 	//populateDB();
-	ingresacateg();
-	ingresaproductos();
+	//ingresacateg();
+	//ingresaproductos();
 	//descomentar este para el cierre //$('#ModuloCierre').load('views/includes/cierreCajaNubePOS/includeCierre.php');
+	ColocarFormasPago();
 	$('#central').css("width",parseInt($('#content').css('width'))-20);
 	if(parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150<650)
 		$('#central').css("height",parseInt($('#content').css('height'))-parseInt($('#header').css('height'))-150);
@@ -15,7 +16,7 @@ function init(){
 		$('#central').css("height","650px");
 	pantAlto=parseInt($('#central').css('height'));
 	pantAncho=parseInt($('#content').css('width'))-20;
-	$.ajax({
+	/*$.ajax({
 		type: 'POST',
 		url: 'views/nubepos/ajax/ajaxImpuestos.php',
 		success: function(response){
@@ -30,10 +31,13 @@ function init(){
 		success: function(response){
 			formarCategorias(response);
 			}
-		});
-	/*SQLLITE CATEGORIAS*/	
-	selectorCat();
-	selectorProds();
+		});*/
+	/*SQLLITE CATEGORIAS*/
+	var jsoncateg=$('#jsonCategorias').html(); 
+	formarCategorias(jsoncateg);
+	
+	//selectorCat();
+	//selectorProds();
 	
 	$('.numero').on('mouseover',function(){
 		var cual=$(this).attr('cual');
@@ -336,16 +340,10 @@ function init2(categoria){
 	}
 	
 	
-	/*$('#addDiscount').css('width',parseInt($('#popupDiscount').css('width'))*60/100);*/
-	/*$('#addDiscount').css('font-size',parseInt($('#addDiscount').css('height'))*80/100);*/
+	
 	$('#resultBuscador').css('left',parseInt($('.buscador').css('left'))+10);
 	$('#resultBuscador').css('top',parseInt($('.buscador').css('height'))-9);
 	$('#resultBuscador').css('max-height',parseInt($('#resultBuscador').css('font-size'))*6);
-	/*$('#addDiscount,#labeladdDiscount').css('height',(parseInt($('.buscador').css('height'))*50/100)+'px');*/
-	/*$('#popupDiscount, #btn_cancelar, #btn_agregar,#labeladdDiscount').css('font-size',parseInt($('#addDiscount').css('font-size'))*75/100);*/
-	/*$('#btn_cancelar, #btn_agregar,#labeladdDiscount').css('border-radius',parseInt($('#btncancelar').css('border-radius'))*2/100);*/
-	/*$('#btn_cancelar, #btn_agregar,#labeladdDiscount').css('border-radius',parseInt($('#btncancelar').css('border-radius'))*2/100);*/
-	//$('#nav_izq,#nav_der').css('height',parseInt($('.producto').css('height')));
 	$('#divInScan').css('height',(parseInt($('.scan').css('height'))-20)+'px');
 	$('#divInScan').css('width',(parseInt($('.scan').css('width'))-20)+'px');
 	$('#btn_scan').css('height',(parseInt($('.scan').css('height'))-20)+'px');
@@ -386,10 +384,6 @@ function init2(categoria){
 	$('.numero').css('font-size',(parseInt($('.fondonum').css('height'))*70/100)+'px');
 	
 	$('.header').css('height',pantAlto*8/100);
-	/*if(parseInt($('#imgdel').css('width'))>parseInt($('.contnumero').css('width')))
-		$('#imgdel').css('width',(parseInt($('.contnumero').css('width'))*95/100)+'px');
-	else
-		$('#imgdel').css('height',(parseInt($('.contnumero').css('height'))*99/100)+'px');*/
 	$('.cantidad').css('height',(parseInt($('.contnumero').css('height'))-10)+'px');
 	$('.cantidad').css('width',(parseInt($('#divInNumPad').css('width'))*90/100));
 	$('.cantidad').css('border-radius',(parseInt($('.cantidad').css('height'))/2)+'px');
@@ -516,7 +510,7 @@ function agregarCompra(item,origen){
 	//impuestos end
 		
 	var total = ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) + parseFloat(taxTotal));
-	$('#tablaCompra').append('<tr><td class="lineadetalle" data-borrarcantidad="'+ productoCantidad +'" data-borrarimpuesto="'+ productoImpuestos +'" data-borrarimpuestoindexes="'+ productoImpuestosIndexes +'" data-borrarprecio="'+ productoPrecio +'" onclick="borrarCompra(this); return false;" style="width: 5%;"><img alt="" src="../images/xcierre.png" class="product_del"/><input type="hidden" class="totales" value="'+ total +'"/></td><td style="border-right:1px solid #909192; text-align: center; width:20%;" class="lineadetalle"><input type="hidden" class="productDetails" value="'+ productoID +'|'+ productoNombre +'|'+ productoCantidad +'|'+ productoPrecio +'|'+ productoPrecio +'|'+ productoImpuestos +'|'+ ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) + parseFloat(taxTotal)) +'"/>'+ productoCantidad +'</td><td style="border-right:1px solid #909192; padding-left:20px;text-align: left; width:50%; text-transform:capitalize;" class="lineadetalle">'+ productoNombre+'</td><td style="padding-right:20px; text-align: right;" class="lineadetalle">'+ parseFloat(total).toFixed(2) +'</td></tr>');
+	$('#tablaCompra').append('<tr><td class="lineadetalle" data-borrarcantidad="'+ productoCantidad +'" data-borrarimpuesto="'+ productoImpuestos +'" data-borrarimpuestoindexes="'+ productoImpuestosIndexes +'" data-borrarprecio="'+ productoPrecio +'" onclick="borrarCompra(this); return false;" style="width: 5%;"><img alt="" src="../../images/xcierre.png" class="product_del"/><input type="hidden" class="totales" value="'+ total +'"/></td><td style="border-right:1px solid #909192; text-align: center; width:20%;" class="lineadetalle"><input type="hidden" class="productDetails" value="'+ productoID +'|'+ productoNombre +'|'+ productoCantidad +'|'+ productoPrecio +'|'+ productoPrecio +'|'+ productoImpuestos +'|'+ ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) + parseFloat(taxTotal)) +'"/>'+ productoCantidad +'</td><td style="border-right:1px solid #909192; padding-left:20px;text-align: left; width:50%; text-transform:capitalize;" class="lineadetalle">'+ productoNombre+'</td><td style="padding-right:20px; text-align: right;" class="lineadetalle">'+ parseFloat(total).toFixed(2) +'</td></tr>');
 	$('.totales').each(function(){
 		sumTotal += parseFloat($.trim($(this).val()));
 	});
@@ -557,18 +551,18 @@ function formarCategorias(json){
 		}
 		$('#contenidoCategorias').append('<div id="categoria_'+ item.categoria_id +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ item.categoria_id +'); PlaySound(5);">'+ (item.categoria_nombre).substring(0,6) +'</div>');
 	});
-	$.ajax({
+	/*$.ajax({
 		type: 'POST',
 		url: 'views/nubepos/ajax/ajaxProductos.php',
 		success: function(json){
 			$('#jsonProductos').html(json);
-			//init2(categoriaSelected);
+			//init2(categoriaSelected);*/
 			$('#loader').remove();
 			objcategoria=$('#categoria_'+categoriaSelected)[0];
 			console.log(objcategoria);
 			ActivarCategoria(objcategoria,categoriaSelected);
-			}
-	});
+			/*}
+	});*/
 }
 
 var margin = 0;
@@ -931,5 +925,13 @@ function soloNumerost(e){
 	}
         if(letras.indexOf(tecla)==-1 && !tecla_especial){
 	    return false;
+	}
+}
+
+function ColocarFormasPago(){
+	var formaspago=$('#jsonformaspago').html();
+	var evalJson = eval(formaspago);
+	for(evalJson as k){
+		alert(evalJson[k].id);
 	}
 }

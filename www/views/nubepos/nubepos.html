@@ -227,8 +227,18 @@
 		</div>
 	</div>
 	</div>
-	<div id="jsonProductos" style="display: none;"></div>
-	<div id="taxes" style="display: none;"></div>
+	<div id="jsonProductos" style="display: none;">
+		{Productos:[{"Tipo1":[]},{"Tipo2":[{"formulado_id" : "2", "formulado_tipo" : "2", "formulado_nombre" : "atun", "formulado_codigo" : "1234", "formulado_precio" : "1.2", "formulado_precio_id" : "", "formulado_impuestos" : "0.12", "formulado_tax_id" : "1"},{"formulado_id" : "3", "formulado_tipo" : "2", "formulado_nombre" : "sardina", "formulado_codigo" : "1235", "formulado_precio" : "1.5", "formulado_precio_id" : "", "formulado_impuestos" : "0.12", "formulado_tax_id" : "1"},{"formulado_id" : "4", "formulado_tipo" : "2", "formulado_nombre" : "duraznos", "formulado_codigo" : "1236", "formulado_precio" : "2.99", "formulado_precio_id" : "", "formulado_impuestos" : "0.12", "formulado_tax_id" : "1"}]},{"Tipo3":[{"formulado_id" : "5", "formulado_tipo" : "3", "formulado_nombre" : "leche", "formulado_codigo" : "1237", "formulado_precio" : "0.98", "formulado_precio_id" : "", "formulado_impuestos" : "0", "formulado_tax_id" : "0"}]}]}
+	</div>
+	<div id="jsonCategorias" style="display: none;">
+	{"Categorias":[{"categoria_id" : 2, "categoria_nombre" : "Enlatados"},{"categoria_id" : 3, "categoria_nombre" : "Lacteos"}]}
+	</div>
+	<div id="jsonformaspago" style="display: none;">
+	{"FormaPago":[{"id" : 1, "nombre" : "Efectivo","imagen":"Efectivo"},{"id" : 2, "nombre" : "Tarjetas","imagen":"Tarjetas"},{"id" : 2, "nombre" : "Cheques","imagen":"Cheques"}]}</div>
+	<div id="taxes" style="display: none;">
+		<input id="impuesto-1" type="text" value="1|IVA|0.12">
+		<input id="impuesto-2" type="text" value="2|Servicio|0.1">
+	</div>
 	<div id="factura">
 		<input type="hidden" id="subtotalSinIva" value="0"/>
 		<input type="hidden" id="subtotalIva" value="0"/>
@@ -240,8 +250,104 @@
 		<input type="hidden" id="category" value="1"/>
 		<input type="hidden" id="maxPage" value="1"/>
 	</div>
-	<div id="paymentModule"></div>
-	<div id="ModuloCierre" style="position:absolute; top:0px; left:0px; width:100%; background-color:rgba(255,255,255,0.8); text-align:center; height:100%; display:none;"></div>
+	<div id="paymentModule">
+<div id="pay" class="popupPayment">
+<br/>
+<br/>
+<div id="newCliente"></div>
+	<div class="ventanaprincipal">
+		<!--<div id="positionClosePreCuenta" style="position: absolute; left: 96%; top: 0%; z-index: 20;"><img onclick="cancelPayment(); return false;" style="cursor: pointer;" src="../images/xcierre.png"/></div>-->
+		<div style="display: none;" id="json"></div>
+		<form id="referenceToReset">
+        <input id="acc" name="acc" type="hidden" value="">
+        <input id="echo" name="echo" type="hidden" value=""> 
+			<table style="width: 100%; color: #000000; empty-cells: show;margin-top: -20px;" cellspacing="0" cellpadding="0" border="0">
+				<tr class='encabezadorojo'>
+					<td colspan='2' style="height:35px; text-align:center; border-top-right-radius:15px; border-top-left-radius:15px; position:relative;">
+						Pago
+						<img src='../images/xcierre.png' style='position:absolute; top:2px; right:5px; cursor:pointer;' onclick='$("#pay").fadeOut();'/>
+						<table width="100%" cellpadding="0" cellspacing="0" style='display:none;'>
+							<tr>
+								<td style="width:20%;">
+								</td>
+								<td width="30%" style="display: none;">
+									Nombre: <span id="payClientName"></span>
+								</td>
+								<td width="30%" style="display: none;">
+									Cedula: <span id="payClientIDCard"></span>
+								</td>
+								<td style="width: 80%;">
+									Factura: #
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td width='50%' style='background-color:#E0DEDE; color:#58595B; border-right:1px solid #909192; padding:5px;' align='right'><b>Factura No.</b></td><td style='background-color:#E0DEDE; color:#58595B; padding:5px;' align='left'><span id="invoiceNr"></span></td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+					<br/>
+						<table cellpadding="0px" cellspacing="0px" height="100%" align='center'>
+							<tr>
+								<td></td><td><label style='font-size:11px; color:#CCC; font-weight:bold;' id='clientefind'>Consumidor Final</label><br/></td>
+							</tr>
+							<tr>
+								<td valign="middle" align="right">
+								<div class='actiongreenbutton' style='font-size:bold; margin-top:0px;' onclick='BuscarCliente(13);'>
+								<span><img src='images/cliente.png'/></span>&nbsp;Cliente
+								</div>
+								</td>
+								<td valign='middle' align='left'>
+									<input class='valor' name='busquedacliente' id='busquedacliente' style='width:200px; height:20px;' maxlength='13' readonly value='9999999999999'/>									
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align:top; width:120px; height:150px;" colspan='2'>
+						<div class="ventanaformapago">
+							<table style="width:95%;" cellspacing="0" cellpadding="0">
+								<?php
+								$sql = "SELECT * FROM forma_pago WHERE activo = 'TRUE' order by id";
+								$result = pg_query($sql) or die(pg_last_error());
+									$x = 1;
+									while($row = pg_fetch_array($result)){
+										echo '<tr>';
+											echo '<td class="columna1">';
+												echo '<div id="paymentCategory-'.$row['id'].'" class="paymentCategories" onclick="changePaymentCategory(\''.$row['id'].'\',\''.$row['imagen'].'\'); return false;" style="height:100%; background-color: #D2D2D2; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #cccccc;">';
+													echo '<table style="width: 100%; height: 100%;" cellspacing="0px" cellpadding="0px">';
+														echo '<tr style="cursor:pointer;">';
+															
+															echo '<td style="width:20%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B;"><img id="pagos_'.$row['imagen'].'" class="originalImage"  style="margin-left:20px;" alt="" src="../../images/'.($row['imagen']).'.png"/></td>';
+															
+															echo '<td class="textoformapago" id="forma_'.$row['id'].'">';
+																echo $row['formapago'];
+															echo '</td>';
+														echo '</tr>';
+													echo '</table>';
+												echo '</div>';
+											echo '</td>';
+											echo '<td class="columna2">';
+												echo '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
+														echo '<input class="paymentMethods" paymentMethod="'.$row['formapago'].'" idPaymentMethod="'.$row['id'].'" id="payment'.str_replace(' ', '',$row['formapago']).'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="'.number_format(0,2).'" value="" onclick="CambiarMetodo('."'".str_replace(' ', '',$row['formapago'])."'".');" type="number" min="0.00" step="0.10" onfocus="this.select();" min="0" onkeypress="return soloNumerost(event);"/>';
+												echo '</div>';
+											echo '</td>';
+										echo '</tr>';
+										$x++;
+										}
+								?>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div id="ModuloCierre" style="position:absolute; top:0px; left:0px; width:100%; background-color:rgba(255,255,255,0.8); text-align:center; height:100%; display:none;"></div>
 </div>
 </div>
 </div>
