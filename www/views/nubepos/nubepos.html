@@ -142,7 +142,7 @@
 	<div class='productos' id='productos' align='center'>
 		<div style='position:relative; border-radius:15px; background-color:#B9BDBF; width:98%; margin-right:auto; margin-left:auto;'>
 		<div id="loader" style="display:none; position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255,255,255,0.8); text-align: center;">
-				<img alt="" style="height:20%;" src="../images/loading.gif"/>
+				<img alt="" style="height:20%;" src="images/loading.gif"/>
 		</div>
 		<table cellspacing="0px" cellpadding="0px" width='95%' style='margin-top:10px;'>
 			<tr>
@@ -197,7 +197,7 @@
 	<br/>
 	<br/>
 	<div id="popupDiscount" style="margin-top: 1000px; box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75); background-color: #ffffff; color: #000000; margin-left: auto; margin-right: auto;">
-		<div class="encabezadorojo" style='position:relative; height:30px; font-size:20px;'>Descuentos<img src='../images/xcierre.png' style='position:absolute; top:3px; right:5px; cursor:pointer;' onclick='$("#popup").fadeOut();'/></div>
+		<div class="encabezadorojo" style='position:relative; height:30px; font-size:20px;'>Descuentos<img src='images/xcierre.png' style='position:absolute; top:3px; right:5px; cursor:pointer;' onclick='$("#popup").fadeOut();'/></div>
 		<br/>
 		<div id="discountAdded" style="display: none; text-align: center; color: green">OK!</div>
 		<table cellspacing='0px' cellpadding='0px' align='center' width='90%'>
@@ -227,6 +227,7 @@
 		</div>
 	</div>
 	</div>
+	<input type='hidden' style='display:none;' value='001-001-000050' id='nextnumber'/>
 	<div id="jsonProductos" style="display: none;">
 		{Productos:[{"Tipo1":[]},{"Tipo2":[{"formulado_id" : "2", "formulado_tipo" : "2", "formulado_nombre" : "atun", "formulado_codigo" : "1234", "formulado_precio" : "1.2", "formulado_precio_id" : "", "formulado_impuestos" : "0.12", "formulado_tax_id" : "1"},{"formulado_id" : "3", "formulado_tipo" : "2", "formulado_nombre" : "sardina", "formulado_codigo" : "1235", "formulado_precio" : "1.5", "formulado_precio_id" : "", "formulado_impuestos" : "0.12", "formulado_tax_id" : "1"},{"formulado_id" : "4", "formulado_tipo" : "2", "formulado_nombre" : "duraznos", "formulado_codigo" : "1236", "formulado_precio" : "2.99", "formulado_precio_id" : "", "formulado_impuestos" : "0.12", "formulado_tax_id" : "1"}]},{"Tipo3":[{"formulado_id" : "5", "formulado_tipo" : "3", "formulado_nombre" : "leche", "formulado_codigo" : "1237", "formulado_precio" : "0.98", "formulado_precio_id" : "", "formulado_impuestos" : "0", "formulado_tax_id" : "0"}]}]}
 	</div>
@@ -234,7 +235,11 @@
 	{"Categorias":[{"categoria_id" : 2, "categoria_nombre" : "Enlatados"},{"categoria_id" : 3, "categoria_nombre" : "Lacteos"}]}
 	</div>
 	<div id="jsonformaspago" style="display: none;">
-	{"FormaPago":[{"id" : 1, "nombre" : "Efectivo","imagen":"Efectivo"},{"id" : 2, "nombre" : "Tarjetas","imagen":"Tarjetas"},{"id" : 2, "nombre" : "Cheques","imagen":"Cheques"}]}</div>
+	{"FormaPago":[{"id" : 1, "nombre" : "Efectivo","imagen":"Efectivo"},{"id" : 2, "nombre" : "Tarjetas","imagen":"Tarjetas"},{"id" : 3, "nombre" : "Cheques","imagen":"Bancos"}]}
+	</div>
+	<div id='jsonmisclientes' style="display:none">
+	{"Clientes":[{"id" : 1, "nombre" : "Consumidor Final","cedula":"9999999999999","telefono":"5555555","direccion":"Av. Los Pinos 1245","email":"consumido@gmail.com"}]}
+	</div>
 	<div id="taxes" style="display: none;">
 		<input id="impuesto-1" type="text" value="1|IVA|0.12">
 		<input id="impuesto-2" type="text" value="2|Servicio|0.1">
@@ -265,7 +270,7 @@
 				<tr class='encabezadorojo'>
 					<td colspan='2' style="height:35px; text-align:center; border-top-right-radius:15px; border-top-left-radius:15px; position:relative;">
 						Pago
-						<img src='../images/xcierre.png' style='position:absolute; top:2px; right:5px; cursor:pointer;' onclick='$("#pay").fadeOut();'/>
+						<img src='images/xcierre.png' style='position:absolute; top:2px; right:5px; cursor:pointer;' onclick='$("#pay").fadeOut();'/>
 						<table width="100%" cellpadding="0" cellspacing="0" style='display:none;'>
 							<tr>
 								<td style="width:20%;">
@@ -309,38 +314,64 @@
 				<tr>
 					<td style="vertical-align:top; width:120px; height:150px;" colspan='2'>
 						<div class="ventanaformapago">
-							<table style="width:95%;" cellspacing="0" cellpadding="0">
-								<?php
-								$sql = "SELECT * FROM forma_pago WHERE activo = 'TRUE' order by id";
-								$result = pg_query($sql) or die(pg_last_error());
-									$x = 1;
-									while($row = pg_fetch_array($result)){
-										echo '<tr>';
-											echo '<td class="columna1">';
-												echo '<div id="paymentCategory-'.$row['id'].'" class="paymentCategories" onclick="changePaymentCategory(\''.$row['id'].'\',\''.$row['imagen'].'\'); return false;" style="height:100%; background-color: #D2D2D2; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #cccccc;">';
-													echo '<table style="width: 100%; height: 100%;" cellspacing="0px" cellpadding="0px">';
-														echo '<tr style="cursor:pointer;">';
-															
-															echo '<td style="width:20%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B;"><img id="pagos_'.$row['imagen'].'" class="originalImage"  style="margin-left:20px;" alt="" src="../../images/'.($row['imagen']).'.png"/></td>';
-															
-															echo '<td class="textoformapago" id="forma_'.$row['id'].'">';
-																echo $row['formapago'];
-															echo '</td>';
-														echo '</tr>';
-													echo '</table>';
-												echo '</div>';
-											echo '</td>';
-											echo '<td class="columna2">';
-												echo '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
-														echo '<input class="paymentMethods" paymentMethod="'.$row['formapago'].'" idPaymentMethod="'.$row['id'].'" id="payment'.str_replace(' ', '',$row['formapago']).'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="'.number_format(0,2).'" value="" onclick="CambiarMetodo('."'".str_replace(' ', '',$row['formapago'])."'".');" type="number" min="0.00" step="0.10" onfocus="this.select();" min="0" onkeypress="return soloNumerost(event);"/>';
-												echo '</div>';
-											echo '</td>';
-										echo '</tr>';
-										$x++;
-										}
-								?>
+							<table style="width:95%;" cellspacing="0" cellpadding="0" id='tablaformaspago'>
 							</table>
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2' style='padding-bottom:10px;'>
+						<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px">
+							<tr>
+								<td class="totalsmall" colspan='2' align='center' valign='middle' style='font-size:24px;'>
+								<table class="totalvista" border="0" cellpadding="0" cellspacing="0" align='center'>
+									<tr>
+									<td>
+									TOTAL&nbsp;
+									</td>
+											<td id="invoiceTotal" class="payOverview">
+												0.00
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td class="vue" style='padding-right:18px; border-top-right-radius:0px; border-bottom-right-radius:0px; background-color:#E0DEDE;' align='right'>
+									 PAGADO
+								</td>
+								<td id="invoicePaid" class='vue' style='padding-left:20px; border-top-left-radius:0px; border-bottom-left-radius:0px;' align='right'>
+									0.00
+								</td>
+							</tr>
+							<tr >
+								<td id="invoiceDebt" class="vue" style='padding-right:18px; border-top-right-radius:0px; border-bottom-right-radius:0px; background-color:#E0DEDE;' align='right'>
+									FALTANTE
+								</td>
+								<td id="changeFromPurchase" class='vue' style='padding-left:20px; border-top-left-radius:0px;border-bottom-left-radius:0px;' align='right'>
+									0
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="vertical-align: middle; height: 50px; background-color: #E0DEDE;">						
+                        <div style="position: relative;margin: 5px auto;width: 300px;">
+							<table>
+                            <tr>
+                                <td>
+        						<div style="width:80px;  float:right;" id="payButton" class="actiongreenbutton" onclick="performPurchase('table'); return false;">Pagar</div>
+    							</td>
+                                <td>
+        						    <div style="display: none; width:80px;" id="payButtonActivated" class='actiongreenbutton'>Pagar</div>
+                                </td>
+                                <td>
+    							    <div id="cancelButton" class='actionredbutton' onclick="cancelPayment(); return false;">Cancelar</div>
+                                </td>
+    						</tr>
+                        </table>
+                        </div>
 					</td>
 				</tr>
 			</table>

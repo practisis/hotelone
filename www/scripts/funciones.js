@@ -104,24 +104,6 @@ function init(){
 			
 		showProducts(category,direction);
 		});
-		
-		$.ajax({
-		type: 'POST',
-		data: 'module=true',
-		url: '../includes/paymentNubePOS/index.php',
-		success: function(response){
-			$('#paymentModule').html(response);
-			$.getScript('../includes/paymentNubePOS/js/payment.js');
-			}
-		});
-		
-		/*$.ajax({
-		type: 'POST',
-		url: 'ajax/ajaxClientes.php',
-		success: function(response){
-			$('#jsonclientes').html(response);
-			}
-		});*/
 		init2();
 		
 }
@@ -525,7 +507,7 @@ function agregarCompra(item,origen){
 	$('#contentdetalle').animate({
 		scrollTop: $('#contentdetalle')[0].scrollHeight
 		}, 1000).clearQueue();
-	$('#tablaCompra tr:last-child').effect('highlight',{},'normal')
+	//$('#tablaCompra tr:last-child').effect('highlight',{},'normal')
 	celdaenfocada=-1;
 	$('.lineadetalle').css('font-size',$('.lineadetalle').css('font-size'));
 	if(vertical==true)
@@ -929,9 +911,71 @@ function soloNumerost(e){
 }
 
 function ColocarFormasPago(){
-	/*var formaspago=$('#jsonformaspago').html();
-	var evalJson = eval(formaspago);
-	for(evalJson as k){
+	var formaspago=$('#jsonformaspago').html();
+	var evalJson=JSON.parse(formaspago);
+	//console.log(evalJson);
+	for(var k in evalJson){
+		var x = 1;
+		var mihtml='';
+		for(var j in evalJson[k]){
+			//alert(evalJson[k][j]+id);
+				mihtml+= '<tr>';
+				mihtml+= '<td class="columna1">';
+				mihtml+= '<div id="paymentCategory-'+evalJson[k][j].id+'" class="paymentCategories" onclick="changePaymentCategory(\''+evalJson[k][j].id+'\',\''+evalJson[k][j].imagen+'\'); return false;" style="height:100%; background-color: #D2D2D2; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #cccccc;">';
+				mihtml+= '<table style="width: 100%; height: 100%;" cellspacing="0px" cellpadding="0px">';
+			    mihtml+= '<tr style="cursor:pointer;">';
+				mihtml+= '<td style="width:20%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B;"><img id="pagos_'+evalJson[k][j].imagen+'" class="originalImage"  style="margin-left:20px;" alt="" src="images/'+(evalJson[k][j].imagen)+'.png"/></td>';
+				mihtml+= '<td class="textoformapago" id="forma_'+evalJson[k][j].id+'">';
+				mihtml+=evalJson[k][j].nombre;
+				mihtml+= '</td>';
+				mihtml+= '</tr>';
+				mihtml+= '</table>';
+				mihtml+= '</div>';
+				mihtml+= '</td>';
+				mihtml+= '<td class="columna2">';
+				mihtml+= '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
+				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onkeypress="return soloNumerost(event);"/>';
+				mihtml+= '</div>';
+				mihtml+= '</td>';
+				mihtml+= '</tr>';
+				x++;
+		}
+	}
+	$('#tablaformaspago').html(mihtml);
+	/*var evalJson = eval(formaspago);
+	for(var k in evalJson){
 		alert(evalJson[k].id);
 	}*/
 }
+
+/*function BuscarCliente(e){
+	var valor=$('#busquedacliente').val();
+	if(e==13){
+		mostrarClientes();
+		$.getJSON('../includes/cliente/ajaxCliente.php',{ id:"cedula", valor: valor }).done(function(json){
+		if(json.clientes[0].data)
+		{
+			entro=true;
+			$('#idCliente').val(json.clientes[0].id);
+			$('#clientID').val(json.clientes[0].id);
+			$('#nombreP').val(json.clientes[0].nombre+' '+json.clientes[0].apellido);
+			$('#clientefind').html(json.clientes[0].nombre+' '+json.clientes[0].apellido);
+			$('#cedulaP').val(json.clientes[0].cedula);
+			$('#telefonoP').val(json.clientes[0].telefono);
+			$('#direccionP').val(json.clientes[0].direccion);
+			$('#apellidoP').val(json.clientes[0].apellido);
+			$('#emailP').val(json.clientes[0].email);
+			$('.tipoClienteP').val(1);
+			if($('#insideShop').length > 0){
+				continueShopping(json.clientes[0].id);
+			}
+			return;
+		}else{
+			mostrarClientes();
+		}
+		}).fail(function(){
+			mostrarClientes();
+		});
+		
+	}
+}*/
